@@ -9,7 +9,7 @@
 
 import environ
 
-ROOT_DIR = environ.Path(__file__) - 3  # (boot_camp_mall/config/settings/base.py - 3 = boot_camp_mall/)
+ROOT_DIR = environ.Path(__file__) - 4  # (boot_camp_mall/config/settings/base.py - 3 = boot_camp_mall/)
 
 APPS_DIR = ROOT_DIR.path('boot_camp_mall')
 
@@ -29,9 +29,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -78,6 +78,7 @@ TEMPLATES = [
 #第三方APPS
 THIRD_PARTY_APPS = [
 
+    'rest_framework'
 ]
 
 #项目配置Apps
