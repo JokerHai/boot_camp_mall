@@ -1,2 +1,2 @@
-# boot_camp_mall
+# bootcamp_mall
 开源电商系统
