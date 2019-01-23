@@ -1,66 +1,79 @@
 var vm = new Vue({
-	el: '#app',
-	data: {
-		error_name: false,
-		error_password: false,
-		error_check_password: false,
-		error_phone: false,
-		error_allow: false,
-		error_sms_code: false,
+    el: '#app',
+    data: {
+        host: host,
 
-		username: '',
-		password: '',
-		password2: '',
-		mobile: '',
-		sms_code: '',
-		allow: false
-	},
-	methods: {
-		check_username: function (){
-			var len = this.username.length;
-			if(len<5||len>20) {
-				this.error_name = true;
-			} else {
-				this.error_name = false;
-			}
-		},
-		check_pwd: function (){
-			var len = this.password.length;
-			if(len<8||len>20){
-				this.error_password = true;
-			} else {
-				this.error_password = false;
-			}
-		},
-		check_cpwd: function (){
-			if(this.password!=this.password2) {
-				this.error_check_password = true;
-			} else {
-				this.error_check_password = false;
-			}
-		},
-		check_phone: function (){
-			var re = /^1[345789]\d{9}$/;
-			if(re.test(this.mobile)) {
-				this.error_phone = false;
-			} else {
-				this.error_phone = true;
-			}
-		},
-		check_sms_code: function(){
-			if(!this.sms_code){
-				this.error_sms_code = true;
-			} else {
-				this.error_sms_code = false;
-			}
-		},
-		check_allow: function(){
-			if(!this.allow) {
-				this.error_allow = true;
-			} else {
-				this.error_allow = false;
-			}
-		},
+        error_name: false,
+        error_password: false,
+        error_check_password: false,
+        error_phone: false,
+        error_allow: false,
+        error_sms_code: false,
+        error_name_message: '',
+        error_phone_message: '',
+        error_sms_code_message: '',
+
+        sms_code_tip: '获取短信验证码',
+        sending_flag: false, // 正在发送短信标志
+
+        username: '',
+        password: '',
+        password2: '',
+        mobile: '',
+        sms_code: '',
+        allow: false
+    },
+    methods: {
+        check_username: function (){
+            var len = this.username.length;
+            if(len<5||len>20) {
+                this.error_name_message = '请输入5-20个字符的用户名';
+                this.error_name = true;
+            } else {
+                this.error_name = false;
+            }
+
+        },
+        check_pwd: function (){
+            var len = this.password.length;
+            if(len<8||len>20){
+                this.error_password = true;
+            } else {
+                this.error_password = false;
+            }
+        },
+        check_cpwd: function (){
+            if(this.password!=this.password2) {
+                this.error_check_password = true;
+            } else {
+                this.error_check_password = false;
+            }
+        },
+        check_phone: function (){
+            var re = /^1[345789]\d{9}$/;
+            if(re.test(this.mobile)) {
+                this.error_phone = false;
+            } else {
+                this.error_phone_message = '您输入的手机号格式不正确';
+                this.error_phone = true;
+            }
+
+        },
+        check_sms_code: function(){
+            if(!this.sms_code){
+                this.error_sms_code_message = '请填写短信验证码';
+                this.error_sms_code = true;
+            } else {
+                this.error_sms_code = false;
+            }
+        },
+        check_allow: function(){
+            if(!this.allow) {
+                this.error_allow = true;
+            } else {
+                this.error_allow = false;
+            }
+        },
         // 发送手机短信验证码
         send_sms_code: function(){
             if (this.sending_flag == true) {
@@ -110,14 +123,15 @@ var vm = new Vue({
                     this.sending_flag = false;
                 })
         },
-		// 注册
-		on_submit: function(){
-			this.check_username();
-			this.check_pwd();
-			this.check_cpwd();
-			this.check_phone();
-			this.check_sms_code();
-			this.check_allow();
-		}
-	}
+        // 注册
+        on_submit: function(){
+            this.check_username();
+            this.check_pwd();
+            this.check_cpwd();
+            this.check_phone();
+            this.check_sms_code();
+            this.check_allow();
+
+        }
+    }
 });

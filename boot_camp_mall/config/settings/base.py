@@ -78,7 +78,8 @@ TEMPLATES = [
 #第三方APPS
 THIRD_PARTY_APPS = [
 
-    'rest_framework'
+    'rest_framework',
+    'corsheaders'
 ]
 
 #项目配置Apps

@@ -26,6 +26,14 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     'api.bootcamp.site'
 ]
+# CORS
+#-------------------------------------------------------------------------------
+CORS_ORIGIN_WHITELIST = (
+    '127.0.0.1:8080',
+    'localhost:8080',
+    'www.bootcamp.site:8080',
+)
+CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 # DATABASES
 # ------------------------------------------------------------------------------
 
@@ -34,8 +42,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'HOST': env.str('POSTGRES_HOST'),  # 数据库主机
         'PORT': env.int('POSTGRES_PORT'),  # 数据库端口
-        'USER': 'root',  # 数据库用户名
-        'PASSWORD': 'root',  # 数据库用户密码
+        'USER': env.str('POSTGRES_USER'),  # 数据库用户名
+        'PASSWORD': env.str('POSTGRES_PASSWORD'),  # 数据库用户密码
         'NAME': env.str('POSTGRES_DB')  # 数据库名字
     }
 }
@@ -119,8 +127,11 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'meiduo_mall.utils.exceptions.exception_handler',
 }
 
-# AUTH_USER_MODEL = '子应用.模型类'
-AUTH_USER_MODEL = 'users.User'
+# django-debug-toolbar
+# ------------------------------------------------------------------------------
+MIDDLEWARE += ['corsheaders.middleware.CorsMiddleware']
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+# AUTH_USER_MODEL = '子应用.模型类'
+AUTH_USER_MODEL = 'users.User'
