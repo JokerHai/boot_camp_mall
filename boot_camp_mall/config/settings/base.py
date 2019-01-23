@@ -75,9 +75,8 @@ TEMPLATES = [
         },
     },
 ]
-#第三方APPS
+#扩展APPS
 THIRD_PARTY_APPS = [
-
     'rest_framework',
     'corsheaders'
 ]

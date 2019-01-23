@@ -11,7 +11,7 @@ ul,ol{list-style:none;}
 em{font-style: normal;}
 
 /* 去掉a标签默认的下划线 */
-a{text-decoration:none;}
+a{text-decoration:none;cursor:pointer;}
 
 
 /* 去掉加链接时产生的框线 */

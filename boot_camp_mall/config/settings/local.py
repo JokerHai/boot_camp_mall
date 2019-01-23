@@ -2,9 +2,7 @@
 
 # @Author  : joker
 # @Date    : 2019-01-22
-import logging
-
-from django.utils.log import DEFAULT_LOGGING
+import datetime
 
 from .base import *  # noqa
 
@@ -57,14 +55,20 @@ CACHES = {
         'LOCATION': env('DEFAULT_REDIS_URL'),
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            # Mimicing memcache behavior.
-            # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
             'IGNORE_EXCEPTIONS': True,
         }
     },
     "session": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": env('SESSION_REDIS_URL'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    # 存储短信验证码的内容
+    "verify_codes": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": env('SMS_REDIS_URL'),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -105,7 +109,7 @@ LOGGING = {
         'file': {  # 向文件中输出日志
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(os.path.dirname(ROOT_DIR), "logs"),  # 日志文件的位置
+            'filename': os.path.join(ROOT_DIR, "logs/"+datetime.datetime.now().strftime('%Y-%m-%d')+".log"),  # 日志文件的位置
             'maxBytes': 300 * 1024 * 1024,
             'backupCount': 10,
             'formatter': 'verbose'
@@ -124,10 +128,10 @@ LOGGING = {
 # ------------------------------------------------------------------------------
 REST_FRAMEWORK = {
     # 异常处理
-    'EXCEPTION_HANDLER': 'meiduo_mall.utils.exceptions.exception_handler',
+    'EXCEPTION_HANDLER': 'boot_camp_mall.utils.exceptions.exception_handler',
 }
 
-# django-debug-toolbar
+# django-cors-headers 解决跨域问题
 # ------------------------------------------------------------------------------
 MIDDLEWARE += ['corsheaders.middleware.CorsMiddleware']
 
