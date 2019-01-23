@@ -42,22 +42,30 @@ DATABASES = {
 
 # CACHES
 # ------------------------------------------------------------------------------
+default = env('SESSION_REDIS_URL')
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': env('REDIS_URL'),
+        'LOCATION': env('DEFAULT_REDIS_URL'),
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
             # Mimicing memcache behavior.
             # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
             'IGNORE_EXCEPTIONS': True,
         }
+    },
+    "session": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": env('SESSION_REDIS_URL'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
-SESSION_CACHE_ALIAS = "default"
+SESSION_CACHE_ALIAS = "session"
 
 
 
