@@ -12,4 +12,9 @@ urlpatterns = [
         view=views.UsernameProfileView.as_view(),
         name='user_profile'
     ),
+    url(
+        regex=r'^mobiles/(?P<mobile>1[3-9]\d{9})/count/$',
+        view=views.MobileProfileView.as_view(),
+        name='mobile_profile'
+    )
 ]

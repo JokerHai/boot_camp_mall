@@ -23,7 +23,7 @@ class ActionResult(object):
         return self.message
 
     @staticmethod
-    def success(entity):
+    def success(entity=None):
         return Response(ActionResult(0, "ok", entity).__dict__)
     @staticmethod
     def failure(errcode,errmsg):

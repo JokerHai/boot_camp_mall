@@ -38,7 +38,7 @@ var vm = new Vue({
                         responseType: 'json'
                     })
                     .then(response => {
-                        if (response.data.entity.total_count > 0) {
+                        if (response.data.entity.count > 0) {
                             this.error_name_message = '用户名已存在';
                             this.error_name = true;
                         } else {
@@ -73,7 +73,22 @@ var vm = new Vue({
                 this.error_phone_message = '您输入的手机号格式不正确';
                 this.error_phone = true;
             }
-
+            if (this.error_phone == false) {
+                axios.get(this.host + '/mobiles/'+ this.mobile + '/count/', {
+                        responseType: 'json'
+                    })
+                    .then(response => {
+                        if (response.data.entity.count > 0) {
+                            this.error_phone_message = '手机号已存在';
+                            this.error_phone = true;
+                        } else {
+                            this.error_phone = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error.response.data.errmsg);
+                    })
+            }
         },
         check_sms_code: function(){
             if(!this.sms_code){

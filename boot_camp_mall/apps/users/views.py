@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from common.ActionResult import ActionResult
 from users.models import User
 
-
+# url(r'^username/(?P<username>\w{5,20})/count/$'),
 class UsernameProfileView(APIView):
 
     """查找用户是否存在"""
@@ -21,6 +21,27 @@ class UsernameProfileView(APIView):
 
         data = {
             'user_name': username,
-            'total_count': total_count
+            'count': total_count
+        }
+        return ActionResult.success(data)
+
+#url(r'^mobiles/(?P<mobile>1[3-9]\d{9})/count/$')
+class MobileProfileView(APIView):
+    """
+        手机号数量
+    """
+
+    def get(self,request,mobile):
+        """
+        获取指定手机的数量
+        :param request:
+        :param mobile:
+        :return:
+        """
+        total_count = User.objects.filter(mobile=mobile).count()
+
+        data = {
+            'mobile':mobile,
+            'count':total_count
         }
         return ActionResult.success(data)

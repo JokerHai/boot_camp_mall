@@ -8,6 +8,9 @@ from rest_framework.views import APIView
 from common import constants
 from celery_tasks.sms.tasks import send_sms_code
 
+#r'^sms_codes/(?P<mobile>1[3-9]\d{9})/$'
+from common.ActionResult import ActionResult
+
 
 class SMSCodeView(APIView):
     def get(self, request, mobile):
@@ -39,4 +42,4 @@ class SMSCodeView(APIView):
 
         send_sms_code.delay(mobile, sms_code, expires)
 
-        return Response({"message": "ok"})
+        return ActionResult.success()
