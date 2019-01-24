@@ -3,10 +3,18 @@
 #用户管理
 # @Author  : joker
 # @Date    : 2019-01-22
+from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 
 from common.ActionResult import ActionResult
+from users import serializers
 from users.models import User
+
+
+
+class UserView(CreateAPIView):
+
+    serializer_class = serializers.CreateUserSerializer
 
 # url(r'^username/(?P<username>\w{5,20})/count/$'),
 class UsernameProfileView(APIView):
