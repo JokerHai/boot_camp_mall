@@ -8,10 +8,11 @@ from django.conf.urls import url
 from  . import  views
 urlpatterns = [
     url(
-        regex=r'^users/$',
-        view =views.UserView.as_view(),
+        regex=r'^signup/$',
+        view =views.SignupView.as_view(),
         name ='create_users'
     ),
+
     url(
         regex=r'^username/(?P<username>\w{5,20})/count/$',
         view =views.UsernameProfileView.as_view(),

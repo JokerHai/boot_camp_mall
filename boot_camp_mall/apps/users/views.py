@@ -12,7 +12,7 @@ from users.models import User
 
 
 
-class UserView(CreateAPIView):
+class SignupView(CreateAPIView):
 
     serializer_class = serializers.CreateUserSerializer
 

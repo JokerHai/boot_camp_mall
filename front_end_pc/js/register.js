@@ -32,7 +32,7 @@ var vm = new Vue({
             } else {
                 this.error_name = false;
             }
-            // 检查重名
+            // 检查重名 
             if (this.error_name == false) {
                 axios.get(this.host + '/username/' + this.username + '/count/', {
                         responseType: 'json'

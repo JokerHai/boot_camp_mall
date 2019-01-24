@@ -125,17 +125,28 @@ LOGGING = {
 }
 
 # rest_framework
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 REST_FRAMEWORK = {
     # 异常处理
     'EXCEPTION_HANDLER': 'boot_camp_mall.utils.exceptions.exception_handler',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
 }
 
 # django-cors-headers 解决跨域问题
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 MIDDLEWARE += ['corsheaders.middleware.CorsMiddleware']
 
+#JWT_AUTH
+# -----------------------------------------------------------------------------
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+}
+
 # Your stuff...
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 # AUTH_USER_MODEL = '子应用.模型类'
 AUTH_USER_MODEL = 'users.User'
