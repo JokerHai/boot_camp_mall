@@ -8,8 +8,8 @@ from django.conf.urls import url
 from  . import  views
 urlpatterns = [
     url(
-        regex=r'^$',
-        view=views.home,
-        name='home'
+        regex=r'^username/(?P<username>\w{5,20})/count/$',
+        view=views.UsernameProfileView.as_view(),
+        name='user_profile'
     ),
 ]

@@ -83,7 +83,9 @@ THIRD_PARTY_APPS = [
 
 #项目配置Apps
 LOCAL_APPS = [
+    'home.apps.HomeConfig',
     'users.apps.UsersConfig',
+    'verifications.apps.VerificationsConfig'
 ]
 
 INSTALLED_APPS = INSTALLED_APPS + THIRD_PARTY_APPS + LOCAL_APPS

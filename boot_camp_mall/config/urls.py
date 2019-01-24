@@ -22,6 +22,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'',include('home.urls',namespace='home')),
     url(r'',include('users.urls',namespace='users')),
     url(r'',include('verifications.urls',namespace='verifications'))
 ]

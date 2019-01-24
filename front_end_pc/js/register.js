@@ -32,7 +32,23 @@ var vm = new Vue({
             } else {
                 this.error_name = false;
             }
-
+            // 检查重名
+            if (this.error_name == false) {
+                axios.get(this.host + '/username/' + this.username + '/count/', {
+                        responseType: 'json'
+                    })
+                    .then(response => {
+                        if (response.data.entity.total_count > 0) {
+                            this.error_name_message = '用户名已存在';
+                            this.error_name = true;
+                        } else {
+                            this.error_name = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error.response.data.errmsg);
+                    })
+            }
         },
         check_pwd: function (){
             var len = this.password.length;
