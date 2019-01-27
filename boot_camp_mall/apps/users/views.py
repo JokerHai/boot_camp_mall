@@ -7,14 +7,14 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 
 from common.ActionResult import ActionResult
-from users import serializers
+from users.serializers import SignupSerializer
 from users.models import User
 
 
-
+#url(r'^signup/$')
 class SignupView(CreateAPIView):
 
-    serializer_class = serializers.CreateUserSerializer
+    serializer_class = SignupSerializer
 
 # url(r'^username/(?P<username>\w{5,20})/count/$'),
 class UsernameProfileView(APIView):

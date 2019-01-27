@@ -27,4 +27,4 @@ class ActionResult(object):
         return Response(ActionResult(0, "ok", entity).__dict__)
     @staticmethod
     def failure(errcode,errmsg):
-        return Response(ActionResult(errcode,errmsg,None).__dict__)
+        return Response(ActionResult(errcode,errmsg,None).__dict__,status=errcode)

@@ -27,7 +27,7 @@ var vm = new Vue({
         check_username: function (){
             var len = this.username.length;
             if(len<5||len>20) {
-                this.error_name_message = '请输入5-20个字符的用户名';
+                this.error_name_message = '设置后不可修改中英文均可,最长14个英文或7个汉字';
                 this.error_name = true;
             } else {
                 this.error_name = false;
@@ -165,7 +165,7 @@ var vm = new Vue({
 
             if(this.error_name == false && this.error_password == false && this.error_check_password == false
                 && this.error_phone == false && this.error_sms_code == false && this.error_allow == false) {
-                axios.post(this.host + '/users/', {
+                axios.post(this.host + '/signup/', {
                         username: this.username,
                         password: this.password,
                         password2: this.password2,
@@ -176,6 +176,12 @@ var vm = new Vue({
                         responseType: 'json'
                     })
                     .then(response => {
+                        // 记录用户的登录状态
+                        sessionStorage.clear();
+                        localStorage.clear();
+                        localStorage.token = response.data.token;
+                        localStorage.username = response.data.username;
+                        localStorage.user_id = response.data.id;
                         location.href = '/index.html';
                     })
                     .catch(error=> {

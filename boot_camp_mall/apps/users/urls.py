@@ -4,15 +4,19 @@
 # @Date    : 2019-01-22
 
 from django.conf.urls import url
+from rest_framework_jwt.views import obtain_jwt_token
 
 from  . import  views
 urlpatterns = [
     url(
         regex=r'^signup/$',
         view =views.SignupView.as_view(),
-        name ='create_users'
+        name ='signUp'
     ),
-
+    url(
+        regex=r'^authorizations/$',
+        view = obtain_jwt_token
+    ),
     url(
         regex=r'^username/(?P<username>\w{5,20})/count/$',
         view =views.UsernameProfileView.as_view(),

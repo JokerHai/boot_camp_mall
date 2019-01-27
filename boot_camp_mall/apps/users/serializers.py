@@ -6,10 +6,12 @@ import re
 from django_redis import get_redis_connection
 from rest_framework_jwt.settings import api_settings
 from rest_framework import serializers
+
+
 from users.models import User
 
 
-class CreateUserSerializer(serializers.ModelSerializer):
+class SignupSerializer(serializers.ModelSerializer):
         """
         创建用户序列化器
         """
@@ -19,10 +21,12 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
         allow = serializers.CharField(label='同意协议',write_only=True)
 
+        token = serializers.CharField(label='JWT Token',read_only=True)
+
         class Meta:
             model = User
 
-            fields = ('id', 'username', 'password', 'password2', 'sms_code', 'mobile', 'allow')
+            fields = ('id', 'username', 'password', 'password2', 'sms_code', 'mobile', 'allow','token')
             extra_kwargs = {
                 'username': {
                     'min_length': 5,
@@ -42,8 +46,14 @@ class CreateUserSerializer(serializers.ModelSerializer):
                     }
                 }
             }
+        def validate_username(self,value):
+            #用户名不能全为数字
+            if re.match('^\d+$',value):
+                raise serializers.ValidationError('用户名格式不正确')
+            return value
 
-        def validate_mobile(self, value):
+        # 是否同意协议，手机号格式，手机号是否存在，两次密码是否一致，短信验证是否正确
+        def validate_mobile(self,value):
             """验证手机号"""
             if not re.match(r'^1[3-9]\d{9}$', value):
                 raise serializers.ValidationError('手机号格式错误')
@@ -54,8 +64,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError('手机号已存在')
 
             return value
-
-        def validate_allow(self, value):
+        def validate_allow(self,value):
             """检验用户是否同意协议"""
             if value != 'true':
                 raise serializers.ValidationError('请同意用户协议')
@@ -85,11 +94,14 @@ class CreateUserSerializer(serializers.ModelSerializer):
             del validated_data['password2']
             del validated_data['sms_code']
             del validated_data['allow']
-            user = super().create(validated_data)
+            # user = super().create(validated_data)
+            #
+            # # 调用django的认证系统加密密码
+            # user.set_password(validated_data['password'])
+            # user.save()
 
-            # 调用django的认证系统加密密码
-            user.set_password(validated_data['password'])
-            user.save()
+            # 创建新用户并保存到数据库
+            user = User.objects.create_user(**validated_data)
 
             # 补充生成记录登录状态的token
             jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -97,5 +109,4 @@ class CreateUserSerializer(serializers.ModelSerializer):
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
             user.token = token
-
             return user

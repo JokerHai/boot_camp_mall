@@ -6,7 +6,6 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from common import constants
-from celery_tasks.sms.tasks import send_sms_code
 
 #r'^sms_codes/(?P<mobile>1[3-9]\d{9})/$'
 from common.ActionResult import ActionResult
@@ -39,7 +38,8 @@ class SMSCodeView(APIView):
         pl.execute()
 
         expires = constants.SMS_CODE_REDIS_EXPIRES // 60
-
+        # 发出发送短信任务消息
+        from celery_tasks.sms.tasks import send_sms_code
         send_sms_code.delay(mobile, sms_code, expires)
 
         return ActionResult.success()
