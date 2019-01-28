@@ -18,23 +18,24 @@ DEBUG = env.bool('DEBUG', default=True)
 
 SECRET_KEY = env('SECRET_KEY', default='fOqtAorZrVqWYbuMPOcZnTzw2D5bKeHGpXUwCaNBnvFUmO1njCQZGz05x1BhDG0E')
 
+HOME_URL = '/'
+
 ALLOWED_HOSTS = [
     "localhost",
     "0.0.0.0",
     "127.0.0.1",
     'api.bootcamp.site'
 ]
-# CORS
+# CORS跨域请求的白名单
 #-------------------------------------------------------------------------------
 CORS_ORIGIN_WHITELIST = (
     '127.0.0.1:8080',
     'localhost:8080',
-    'www.bootcamp.site:8080',
+    'www.meiduo.site:8080',
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 # DATABASES
 # ------------------------------------------------------------------------------
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -157,3 +158,10 @@ AUTH_USER_MODEL = 'users.User'
 AUTHENTICATION_BACKENDS = [
     'users.utils.UsernameMobileAuthBackend',
 ]
+
+#QQ登录参数
+# -----------------------------------------------------------------------------
+QQ_CLIENT_ID = env.str('QQ_CLIENT_ID') #开发者应用ID
+QQ_CLIENT_SECRET = env.str('QQ_CLIENT_SECRET') #开发者应用appkey
+QQ_REDIRECT_URI = env.str('QQ_REDIRECT_URI')#开发者回调地址
+QQ_STATE = HOME_URL #登录成功之后要访问的页面
