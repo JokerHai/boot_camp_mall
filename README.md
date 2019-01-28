@@ -1,50 +1,14 @@
-## 1. 用户管理
+数据库操作外键：
+	
+	在设置外键时，需要通过on_delete选项指明主表删除数据时，对于外键引用表数据如何处理.
+	
+	在django.db.models中包含了可选常量：
+	
+		​1:CASCADE 级联，删除主表数据时连通一起删除外键表中数据
 
-### 1.1注册
+		​2:PROTECT 保护，通过抛出ProtectedError异常，来阻止删除主表中被外键应用的数据
 
-​		
-
-### 1.2登录
-
-#### 	1.2.1 获取QQ登录地址
-
-接口链接
-
-​	URL地址：/oauth/qq/authorization/?next=xxx
-
-http请求方式:
-
-​		 GET
-
-​请求参数
-
-| 参数名 | 类型 | 是否必须 |                 说明                 |
-| :----: | :--: | :------: | :----------------------------------: |
-|  net   | str  |    否    | 用户QQ登录成功后进入爱美丽商城的地址 |
-
-返回说明
-
-```json
-{
-    "login_url": "https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id=101474184&redirect_uri=http%3A%2F%2Fwww.meiduo.site%3A8080%2Foauth_callback.html&state=%2Fuser_center_info.html&scope=get_user_info
-}
-```
-
-
-
-## 2.商品管理
-
-
-
-
-
-## 3.购物车管理
-
-
-
-## 4.订单管理
-
-## 5:支付管理
+		​3:SET_NULL 设置为NULL，仅在该字段null=True允许为null时可用
 
 
 
