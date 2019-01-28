@@ -3,7 +3,7 @@
 # @Author  : joker
 # @Date    : 2019-01-24
 from rest_framework.response import Response
-
+from rest_framework import status
 
 class ActionResult(object):
     def __init__(self, errcode, errmsg, entity):
@@ -23,8 +23,8 @@ class ActionResult(object):
         return self.message
 
     @staticmethod
-    def success(entity=None):
-        return Response(ActionResult(0, "ok", entity).__dict__)
+    def success(entity=None,errcode = status.HTTP_200_OK):
+        return Response(ActionResult(0, "ok", entity).__dict__,status=errcode)
     @staticmethod
     def failure(errcode,errmsg):
         return Response(ActionResult(errcode,errmsg,None).__dict__,status=errcode)

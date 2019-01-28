@@ -29,9 +29,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'zh-hans'
+LANGUAGE_CODE = env.str('LANGUAGE_CODE')
 
-TIME_ZONE = 'Asia/Shanghai'
+TIME_ZONE = env.str('TIME_ZONE')
 
 USE_I18N = True
 

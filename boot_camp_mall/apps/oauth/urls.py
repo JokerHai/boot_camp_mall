@@ -8,6 +8,10 @@ from oauth import views
 urlpatterns = [
     url(
         regex=r'^qq/authorization/$',
-        view = views.QQAuthURLView.as_view()
+        view =views.QQAuthURLView.as_view()
     ),
+    url(
+        regex=r'^qq/user/$',
+        view =views.QQAuthUserView.as_view()
+    )
 ]

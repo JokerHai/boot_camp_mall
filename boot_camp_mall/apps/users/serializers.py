@@ -7,7 +7,7 @@ from django_redis import get_redis_connection
 from rest_framework_jwt.settings import api_settings
 from rest_framework import serializers
 
-
+from common.JwtToken import response_jwt_payload_token
 from users.models import User
 
 
@@ -94,19 +94,10 @@ class SignupSerializer(serializers.ModelSerializer):
             del validated_data['password2']
             del validated_data['sms_code']
             del validated_data['allow']
-            # user = super().create(validated_data)
-            #
-            # # 调用django的认证系统加密密码
-            # user.set_password(validated_data['password'])
-            # user.save()
-
             # 创建新用户并保存到数据库
             user = User.objects.create_user(**validated_data)
 
             # 补充生成记录登录状态的token
-            jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-            jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-            payload = jwt_payload_handler(user)
-            token = jwt_encode_handler(payload)
+            token = response_jwt_payload_token(user)
             user.token = token
             return user
