@@ -1,16 +1,27 @@
 import random
-
-# Create your views here.
+from django.http import HttpResponse
 from django_redis import get_redis_connection
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from common import constants
-
-#r'^sms_codes/(?P<mobile>1[3-9]\d{9})/$'
 from common.ActionResult import ActionResult
+from libs.captcha.captcha import captcha
 
+#url(r'^image_codes/?P(<image_code_id>[\w-]+)/$',view.ImageCodeView.as_view())
+class ImageCodeView(APIView):
+    def get(self,request,image_code_id):
+        """
+            获取图片验证码
+        """
+        #生成验证码图片
+        name, text, image_data = captcha.generate_captcha()
 
+        #redis_conn = get_redis_connection("verify_codes")
+
+        #redis_conn.setex("img_%s" % image_code_id, constants.IMAGE_CODE_REDIS_EXPIRES, text)
+        return HttpResponse(image_data, content_type="images/png")
+#r'^sms_codes/(?P<mobile>1[3-9]\d{9})/$'
 class SMSCodeView(APIView):
     def get(self, request, mobile):
 

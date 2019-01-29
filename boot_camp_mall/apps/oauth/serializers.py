@@ -87,7 +87,7 @@ class QQAuthUserSerializer(serializers.ModelSerializer):
         if not user:
             #随机生成一个用户名
             username = base64.b64encode(os.urandom(9)).decode()
-            User.objects.create_user(username=username,password=password,mobile=mobile)
+            user = User.objects.create_user(username=username,password=password,mobile=mobile)
         #保存QQ 绑定的数据
         OAuthQQUser.objects.create(user=user,openid=openid)
         token = response_jwt_payload_token(user)

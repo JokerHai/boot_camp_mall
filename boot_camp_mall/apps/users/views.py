@@ -3,11 +3,12 @@
 #用户管理
 # @Author  : joker
 # @Date    : 2019-01-22
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from common.ActionResult import ActionResult
-from users.serializers import SignupSerializer
+from users.serializers import SignupSerializer , UserDetailSerializer
 from users.models import User
 
 
@@ -53,3 +54,10 @@ class MobileProfileView(APIView):
             'count':total_count
         }
         return ActionResult.success(data)
+
+#url(r'^user/$')
+class UserDetailView(RetrieveAPIView):
+    serializer_class = UserDetailSerializer
+    permission_classes = [IsAuthenticated]
+    def get_object(self):
+        return self.request.user

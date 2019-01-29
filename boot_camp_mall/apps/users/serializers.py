@@ -46,14 +46,16 @@ class SignupSerializer(serializers.ModelSerializer):
                     }
                 }
             }
-        def validate_username(self,value):
+        @classmethod
+        def validate_username(cls,value):
             #用户名不能全为数字
             if re.match('^\d+$',value):
                 raise serializers.ValidationError('用户名格式不正确')
             return value
 
         # 是否同意协议，手机号格式，手机号是否存在，两次密码是否一致，短信验证是否正确
-        def validate_mobile(self,value):
+        @classmethod
+        def validate_mobile(cls,value):
             """验证手机号"""
             if not re.match(r'^1[3-9]\d{9}$', value):
                 raise serializers.ValidationError('手机号格式错误')
@@ -64,7 +66,8 @@ class SignupSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError('手机号已存在')
 
             return value
-        def validate_allow(self,value):
+        @classmethod
+        def validate_allow(cls,value):
             """检验用户是否同意协议"""
             if value != 'true':
                 raise serializers.ValidationError('请同意用户协议')
@@ -101,3 +104,12 @@ class SignupSerializer(serializers.ModelSerializer):
             token = response_jwt_payload_token(user)
             user.token = token
             return user
+
+class UserDetailSerializer(serializers.ModelSerializer):
+
+    """
+        用户详细信息序列化器
+    """
+    class Meta:
+        model = User
+        fields = ('id','username','mobile','email','email_active')

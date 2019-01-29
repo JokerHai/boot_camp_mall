@@ -9,6 +9,11 @@ urlpatterns = [
     url(
         regex=r'^sms_codes/(?P<mobile>1[3-9]\d{9})/$',
         view=views.SMSCodeView.as_view(),
-        name='verifications'
+        name='verify_sms_codes'
+    ),
+    url(
+        regex=r'^image_codes/(?P<image_code_id>[\w-]+)/$',
+        view=views.ImageCodeView.as_view(),
+        name='verify_image_codes'
     )
 ]

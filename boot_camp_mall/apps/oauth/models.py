@@ -3,8 +3,6 @@ from utils.model import BaseModel
 
 # Create your models here.
 
-
-
 class OAuthQQUser(BaseModel):
     """
         QQ登录用户数据

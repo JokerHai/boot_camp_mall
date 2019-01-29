@@ -7,7 +7,8 @@ var vm = new Vue({
         error_pwd_message: '请填写密码',
         username: '',
         password: '',
-        remember: false
+        remember: false,
+        login_url:''
     },
     methods: {
         // 获取url路径参数

@@ -19,7 +19,8 @@ var vm = new Vue({
         access_token: '',
 
         entity: '',
-        errmsg: ''
+        errmsg: '',
+        non_field_errors:''
     },
     mounted: function(){
         // 从路径中获取qq重定向返回的code
@@ -124,8 +125,8 @@ var vm = new Vue({
                 })
                 .catch(error => {
                     if (error.response.status == 400) {
-                        this.error_sms_code = error.response.data.message;
-                        this.error_sms_code_message = true;
+                        this.error_sms_code_message = error.response.data.message;
+                        this.error_sms_code = true;
                     } else {
                         console.log(error.response.data);
                     }
@@ -158,7 +159,11 @@ var vm = new Vue({
                     })
                     .catch(error=> {
                         if (error.response.status == 400) {
-                            this.error_sms_code_message = error.response.data.message;
+                            if ('non_field_errors' in error.response.data) {
+                                this.error_sms_code_message = error.response.data.non_field_errors[0];
+                            } else {
+                                this.error_sms_code_message = error.response.data.message;
+                            }
                             this.error_sms_code = true;
                         } else {
                             console.log(error.response.data);

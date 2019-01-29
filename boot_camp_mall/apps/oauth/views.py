@@ -73,4 +73,4 @@ class QQAuthURLView(APIView):
         oauth = OAuthQQ(state=next)
         login_url = oauth.get_login_url()
         # 3. 返回QQ登录网址
-        return Response({'login_url':login_url})
+        return ActionResult.success({'login_url':login_url})
