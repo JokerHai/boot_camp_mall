@@ -4,7 +4,6 @@
 # @Date    : 2019-01-24
 import re
 from django_redis import get_redis_connection
-from rest_framework_jwt.settings import api_settings
 from rest_framework import serializers
 
 from common.JwtToken import response_jwt_payload_token
@@ -113,3 +112,14 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id','username','mobile','email','email_active')
+
+class EmailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id','email')
+        extra_kwargs = {
+            'email':{
+                'required':True #是否必传
+            }
+        }
