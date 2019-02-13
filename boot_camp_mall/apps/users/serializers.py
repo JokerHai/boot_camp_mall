@@ -123,3 +123,16 @@ class EmailSerializer(serializers.ModelSerializer):
                 'required':True #是否必传
             }
         }
+    def update(self, instance, validated_data):
+        #设置登录用户的邮箱
+        instance.email = validated_data['email']
+        instance.save()
+
+        #生成验证url
+        verify_url = instance.generate_verify_email_url()
+
+        #发出发送邮件的任务消息
+        from celery_tasks.ema.tasks import send_verify_email
+        send_verify_email.delay(instance.email,verify_url)
+
+        return instance

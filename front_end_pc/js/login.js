@@ -91,7 +91,7 @@ var vm = new Vue({
                 })
                 .then(response => {
                     // 访问QQ登录的网址
-                    location.href = response.data.login_url;
+                    location.href = response.data.entity.login_url;
                 })
                 .catch(error => {
                     console.log(error.response.data);
