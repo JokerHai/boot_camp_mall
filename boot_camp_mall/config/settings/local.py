@@ -169,21 +169,3 @@ QQ_CLIENT_ID = env.str('QQ_CLIENT_ID') #开发者应用ID
 QQ_CLIENT_SECRET = env.str('QQ_CLIENT_SECRET') #开发者应用appkey
 QQ_REDIRECT_URI = env.str('QQ_REDIRECT_URI')#开发者回调地址
 QQ_STATE = HOME_URL #登录成功之后要访问的页面
-
-# EMAIL
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
-EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-host
-EMAIL_HOST = env.str('EMAIL_HOST')
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-port
-EMAIL_PORT = env.str('EMAIL_PORT')
-
-#发送邮件的邮箱
-EMAIL_HOST_USER = env.str('EMAIL_HOST_USER')
-
-#在邮箱中设置的客户端授权密码
-EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
-
-#收件人看到的发件人
-EMAIL_FROM = env.str('EMAIL_FROM')

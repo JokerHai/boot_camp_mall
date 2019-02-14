@@ -132,7 +132,7 @@ class EmailSerializer(serializers.ModelSerializer):
         verify_url = instance.generate_verify_email_url()
 
         #发出发送邮件的任务消息
-        from celery_tasks.ema.tasks import send_verify_email
+        from celery_tasks.async_email.tasks import send_verify_email
         send_verify_email.delay(instance.email,verify_url)
 
         return instance

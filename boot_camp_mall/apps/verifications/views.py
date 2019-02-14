@@ -50,7 +50,7 @@ class SMSCodeView(APIView):
 
         expires = constants.SMS_CODE_REDIS_EXPIRES // 60
         # 发出发送短信任务消息
-        from celery_tasks.sms.tasks import send_sms_code
+        from celery_tasks.async_sms.tasks import send_sms_code
         send_sms_code.delay(mobile, sms_code, expires)
 
         return ActionResult.success()
