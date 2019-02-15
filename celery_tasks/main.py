@@ -7,7 +7,7 @@ import os
 from celery import Celery
 
 if not os.environ.get('DJANGO_SETTINGS_MODULE'):
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "boot_camp_mall.config.settings.celery")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "boot_camp_mall.config.settings.local")
 # 创建celery应用
 app = Celery('celery_tasks')
 

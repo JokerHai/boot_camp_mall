@@ -6,7 +6,7 @@ import re
 from django_redis import get_redis_connection
 from rest_framework import serializers
 
-from common.JwtToken import response_jwt_payload_token
+from boot_camp_mall.common.JwtToken import response_jwt_payload_token
 from users.models import User
 
 

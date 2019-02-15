@@ -4,9 +4,9 @@ from django_redis import get_redis_connection
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from common import constants
-from common.ActionResult import ActionResult
-from libs.captcha.captcha import captcha
+from boot_camp_mall.common import constants
+from boot_camp_mall.common.ActionResult import ActionResult
+from boot_camp_mall.libs.captcha.captcha import captcha
 
 #url(r'^image_codes/?P(<image_code_id>[\w-]+)/$',view.ImageCodeView.as_view())
 class ImageCodeView(APIView):

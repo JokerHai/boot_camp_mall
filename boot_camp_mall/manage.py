@@ -19,7 +19,4 @@ if __name__ == "__main__":
                 "forget to activate a virtual environment?"
             )
         raise
-    #bootcamp_mall 目录中放置应用程序
-    current_path = os.path.dirname(os.path.abspath(__file__))
-    sys.path.append(os.path.join(current_path, 'apps'))
     execute_from_command_line(sys.argv)

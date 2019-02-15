@@ -2,8 +2,8 @@ from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from common.ActionResult import ActionResult
-from common.JwtToken import response_jwt_payload_token
+from boot_camp_mall.common.ActionResult import ActionResult
+from boot_camp_mall.common.JwtToken import response_jwt_payload_token
 from oauth.exceptions import QQAPIError
 from oauth.models import OAuthQQUser
 from oauth.serializers import QQAuthUserSerializer

@@ -22,9 +22,9 @@ env.read_env(str(ROOT_DIR.path('.env')))
 DEBUG = env.bool('DJANGO_DEBUG', False)
 
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'boot_camp_mall.config.urls'
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = 'boot_camp_mall.config.wsgi.application'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

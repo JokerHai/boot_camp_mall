@@ -6,7 +6,7 @@
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from common.ActionResult import ActionResult
+from boot_camp_mall.common.ActionResult import ActionResult
 from users.serializers import SignupSerializer , UserDetailSerializer, EmailSerializer
 from users.models import User
 

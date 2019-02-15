@@ -4,6 +4,8 @@
 # @Date    : 2019-01-22
 import datetime
 
+import sys
+
 from .base import *  # noqa
 
 from .base import env
@@ -19,6 +21,8 @@ DEBUG = env.bool('DEBUG', default=True)
 SECRET_KEY = env('SECRET_KEY', default='fOqtAorZrVqWYbuMPOcZnTzw2D5bKeHGpXUwCaNBnvFUmO1njCQZGz05x1BhDG0E')
 
 HOME_URL = '/'
+# apps 目录中放置应用程序
+sys.path.append(os.path.join(APPS_DIR, 'apps'))
 
 ALLOWED_HOSTS = [
     "localhost",

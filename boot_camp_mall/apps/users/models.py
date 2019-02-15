@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from itsdangerous import TimedJSONWebSignatureSerializer as TJWSSerializer
 # Create your models here.
-from common import constants
+from boot_camp_mall.common import constants
 
 
 class User(AbstractUser):

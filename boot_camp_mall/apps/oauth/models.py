@@ -1,5 +1,5 @@
 from django.db import models
-from utils.model import BaseModel
+from boot_camp_mall.utils.model import BaseModel
 
 # Create your models here.
 
