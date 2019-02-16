@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'',include('home.urls',namespace='home')),
     url(r'',include('users.urls',namespace='users')),
     url(r'',include('verifications.urls',namespace='verifications')),
-    url(r'oauth/',include('oauth.urls',namespace='qq_oauth'))
+    url(r'oauth/',include('oauth.urls',namespace='qq_oauth')),
+    url(r'',include('areas.urls',namespace='areas')),
 ]
