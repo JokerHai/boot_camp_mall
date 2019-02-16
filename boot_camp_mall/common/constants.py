@@ -4,7 +4,7 @@
 # @Date    : 2019-01-23
 
 #MALL_HOME
-MALL_HOME = 'http://www.meiduo.site:8000/'
+MALL_HOME = 'http://www.meiduo.site:8080/'
 
 # 短信验证码有效的时间: s
 SMS_CODE_REDIS_EXPIRES = 300

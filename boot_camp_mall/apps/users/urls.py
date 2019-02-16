@@ -36,5 +36,10 @@ urlpatterns = [
         regex=r'^email/$',
         view =views.EmailView.as_view(),
         name='send_email'
+    ),
+    url(
+        regex=r'^emails/verification/$',
+        view =views.VerifyEmailView.as_view(),
+        name ='verify_email'
     )
 ]

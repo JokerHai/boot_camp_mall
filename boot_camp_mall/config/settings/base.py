@@ -86,7 +86,8 @@ LOCAL_APPS = [
     'home.apps.HomeConfig',
     'users.apps.UsersConfig',
     'verifications.apps.VerificationsConfig',
-    'oauth.apps.OauthConfig'
+    'oauth.apps.OauthConfig',
+    'areas.apps.AreasConfig',
 ]
 
 INSTALLED_APPS = INSTALLED_APPS + THIRD_PARTY_APPS + LOCAL_APPS

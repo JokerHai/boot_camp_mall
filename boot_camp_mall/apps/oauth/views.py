@@ -1,6 +1,5 @@
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
-from rest_framework.response import Response
 from rest_framework.views import APIView
 from boot_camp_mall.common.ActionResult import ActionResult
 from boot_camp_mall.common.JwtToken import response_jwt_payload_token
