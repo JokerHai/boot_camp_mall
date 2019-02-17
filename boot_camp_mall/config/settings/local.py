@@ -193,3 +193,12 @@ EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
 
 #收件人看到的发件人
 EMAIL_FROM = env.str('EMAIL_FROM')
+
+# DRF扩展
+# ------------------------------------------------------------------------------
+REST_FRAMEWORK_EXTENSIONS = {
+    # 缓存时间
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60,
+    # 缓存存储
+    'DEFAULT_USE_CACHE': 'default',
+}

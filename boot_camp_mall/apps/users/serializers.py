@@ -7,7 +7,7 @@ from django_redis import get_redis_connection
 from rest_framework import serializers
 
 from boot_camp_mall.common.JwtToken import response_jwt_payload_token
-from users.models import User
+from users.models import User, Address
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -136,3 +136,37 @@ class EmailSerializer(serializers.ModelSerializer):
         send_verify_email.delay(instance.email,verify_url)
 
         return instance
+
+#收货地址序列化器
+class AddressSerializer(serializers.ModelSerializer):
+    """
+    收货地址序列化器
+    """
+    province_id = serializers.IntegerField(label='省id')
+    city_id = serializers.IntegerField(label='市id')
+    district_id = serializers.IntegerField(label='区域id')
+    province = serializers.StringRelatedField(label='省', read_only=True)
+    city = serializers.StringRelatedField(label='市', read_only=True)
+    district = serializers.StringRelatedField(label='区县', read_only=True)
+    class Meta:
+        model = Address
+        exclude = ('user','is_deleted','create_time','update_time')
+
+    @classmethod
+    def validate_mobile(cls,value):
+        #手机号格式
+        if not re.match(r'^1[3-9]\d{9}$',value):
+
+            raise serializers.ValidationError('手机号格式错误')
+
+        return value
+
+    def create(self, validated_data):
+
+        #获取登录用户对象
+        validated_data['user'] = self.context['request'].user
+
+        #调用ModelSerializer中的create方法进行数据保存
+        add_address =super().create(validated_data)
+
+        return add_address

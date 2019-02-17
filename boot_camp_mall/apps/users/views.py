@@ -8,8 +8,10 @@ from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIVie
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
+
 from boot_camp_mall.common.ActionResult import ActionResult
-from users.serializers import SignupSerializer, UserDetailSerializer, EmailSerializer
+from users.serializers import SignupSerializer, UserDetailSerializer, EmailSerializer, AddressSerializer
 from users.models import User
 
 
@@ -109,3 +111,26 @@ class VerifyEmailView(APIView):
             user.email_active = True
             user.save()
             return Response({'message': 'OK'})
+
+#url(r'^addresses/$')
+class AddressViewSet(GenericViewSet):
+
+    permission_classes = [IsAuthenticated]
+
+    serializer_class = AddressSerializer
+    #Post /addresses/
+    def create(self,request):
+
+        #获取参数并进行效验，
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        #创建并保存新增数据(create)
+
+        serializer.save()
+
+
+        #返回相应
+
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
+

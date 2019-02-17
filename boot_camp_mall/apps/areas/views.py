@@ -1,12 +1,13 @@
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 from areas.models import Area
 from areas.serializers import AreasSerializers, SubAreaSerializers
 # Create your views here.
 
 #视图集实现方法
-class AreasViewSet(ReadOnlyModelViewSet):
+class AreasViewSet(CacheResponseMixin,ReadOnlyModelViewSet):
 
     def get_serializer_class(self):
         if self.action == 'list':
