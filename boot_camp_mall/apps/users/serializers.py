@@ -170,3 +170,11 @@ class AddressSerializer(serializers.ModelSerializer):
         add_address =super().create(validated_data)
 
         return add_address
+#修改标题序列化器
+class AddressTitleSerializer(serializers.ModelSerializer):
+    """
+    地址标题
+    """
+    class Meta:
+        model = Address
+        fields = ('title',)
