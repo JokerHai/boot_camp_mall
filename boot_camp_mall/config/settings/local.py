@@ -35,9 +35,9 @@ ALLOWED_HOSTS = [
 # CORS跨域请求的白名单
 #-------------------------------------------------------------------------------
 CORS_ORIGIN_WHITELIST = (
-    '127.0.0.1:8080',
-    'localhost:8080',
-    'www.meiduo.site:8080',
+    '127.0.0.1',
+    'localhost',
+    'www.meiduo.site',
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 # DATABASES
@@ -194,7 +194,7 @@ EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
 #收件人看到的发件人
 EMAIL_FROM = env.str('EMAIL_FROM')
 
-# DRF扩展
+# DRF扩展,地区数据缓存配置
 # ------------------------------------------------------------------------------
 REST_FRAMEWORK_EXTENSIONS = {
     # 缓存时间
@@ -202,3 +202,8 @@ REST_FRAMEWORK_EXTENSIONS = {
     # 缓存存储
     'DEFAULT_USE_CACHE': 'default',
 }
+
+#静态文件处理
+#--------------------------------------------------------------------------------
+STATIC_ROOT = os.path.join(ROOT_DIR, 'front_end_pc/static')
+print(STATIC_ROOT)

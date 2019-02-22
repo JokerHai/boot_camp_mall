@@ -2,8 +2,6 @@
 
 # @Author  : joker
 # @Date    : 2019-01-24
-import re
-
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 

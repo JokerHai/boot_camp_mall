@@ -46,6 +46,12 @@
                         <span v-show="error_phone" class="error_tip">{{ error_phone_message }}</span>
                     </li>
                     <li>
+                        <label>图形验证码:</label>
+                        <input type="text" v-model="image_code" @blur="check_image_code" name="pic_code" id="pic_code" class="msg_input">
+                        <img :src="image_code_url" @click="generate_image_code" alt="图形验证码" class="pic_code">
+                        <span v-show="error_image_code" class="error_tip">{{ error_image_code_message }}</span>
+                    </li>
+                    <li>
                         <label>短信验证码:</label>
                         <input type="text" v-model="sms_code" @blur="check_sms_code" name="msg_code" id="msg_code" class="msg_input">
                         <a @click="send_sms_code" class="get_msg_code">{{ sms_code_tip }}</a>

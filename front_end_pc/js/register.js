@@ -8,11 +8,14 @@ var vm = new Vue({
         error_check_password: false,
         error_phone: false,
         error_allow: false,
+        error_image_code: false,
         error_sms_code: false,
         error_name_message: '',
         error_phone_message: '',
+        error_image_code_message:'',
         error_sms_code_message: '',
-
+        image_code_id: '', // 图片验证码id
+        image_code_url: '',
         sms_code_tip: '获取短信验证码',
         sending_flag: false, // 正在发送短信标志
 
@@ -20,10 +23,40 @@ var vm = new Vue({
         password: '',
         password2: '',
         mobile: '',
+        image_code:'',
         sms_code: '',
-        allow: false
+        entity:'',
+        allow: false,
     },
-    methods: {
+	// 模板渲染完会去执行的模块
+	mounted: function () {
+		// 调用生成图片验证码的方法
+		this.generate_image_code();
+    },
+	methods: {
+		// 生成uuid
+		generate_uuid: function(){
+			var d = new Date().getTime();
+			if(window.performance && typeof window.performance.now === "function"){
+				d += performance.now(); //use high-precision timer if available
+			}
+			var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+				var r = (d + Math.random()*16)%16 | 0;
+				d = Math.floor(d/16);
+				return (c =='x' ? r : (r&0x3|0x8)).toString(16);
+			});
+			return uuid;
+		},
+		// 生成一个图片验证码的编号，并设置页面中图片验证码img标签的src属性
+		generate_image_code: function(){
+			// 生成一个编号
+			// 严格一点的使用uuid保证编号唯一， 不是很严谨的情况下，也可以使用时间戳
+			this.image_code_id = this.generate_uuid();
+
+			// 设置页面中图片验证码img标签的src属性
+		    this.image_code_url = this.host + "/image_codes/" + this.image_code_id + "/";
+        },
+        // 检查用户名
         check_username: function (){
             var len = this.username.length;
             if(len<5||len>20) {
@@ -32,7 +65,7 @@ var vm = new Vue({
             } else {
                 this.error_name = false;
             }
-            // 检查重名 
+            // 检查重名
             if (this.error_name == false) {
                 axios.get(this.host + '/username/' + this.username + '/count/', {
                         responseType: 'json'
@@ -90,6 +123,17 @@ var vm = new Vue({
                     })
             }
         },
+		check_image_code: function (){
+			if(!this.image_code) {
+			    this.error_image_code_message = '请填写图片验证码';
+				this.error_image_code = true;
+			} else {
+				this.error_image_code = false;
+			}
+			if(this.error_image_code ==false){
+
+            }
+		},
         check_sms_code: function(){
             if(!this.sms_code){
                 this.error_sms_code_message = '请填写短信验证码';
@@ -114,6 +158,7 @@ var vm = new Vue({
 
             // 校验参数，保证输入框有数据填写
             this.check_phone();
+            this.check_image_code();
 
             if (this.error_phone == true) {
                 this.sending_flag = false;
@@ -160,6 +205,7 @@ var vm = new Vue({
             this.check_pwd();
             this.check_cpwd();
             this.check_phone();
+            this.check_image_code();
             this.check_sms_code();
             this.check_allow();
 

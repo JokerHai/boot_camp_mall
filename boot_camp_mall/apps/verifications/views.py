@@ -17,10 +17,10 @@ class ImageCodeView(APIView):
         #生成验证码图片
         name, text, image_data = captcha.generate_captcha()
 
-        #redis_conn = get_redis_connection("verify_codes")
+        redis_conn = get_redis_connection("verify_codes")
 
-        #redis_conn.setex("img_%s" % image_code_id, constants.IMAGE_CODE_REDIS_EXPIRES, text)
-        return HttpResponse(image_data, content_type="images/png")
+        redis_conn.setex("img_%s" % image_code_id, constants.IMAGE_CODE_REDIS_EXPIRES, text)
+        return HttpResponse(image_data, content_type="image/jpg")
 #r'^sms_codes/(?P<mobile>1[3-9]\d{9})/$'
 class SMSCodeView(APIView):
     def get(self, request, mobile):

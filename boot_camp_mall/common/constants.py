@@ -29,3 +29,4 @@ EMAIL_VERIFY_URL = MALL_HOME+'success_verify_email.html?token='
 
 #收货地址最大数量
 USER_ADDRESS_COUNTS_LIMIT = 5
+

@@ -8,6 +8,7 @@ from rest_framework import serializers
 
 from boot_camp_mall.common.JwtToken import response_jwt_payload_token
 from users.models import User, Address
+from boot_camp_mall.utils.tool import perform_phone
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -113,6 +114,12 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id','username','mobile','email','email_active')
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if data['mobile']:
+            data['mobile'] = perform_phone(data['mobile'])
+        return data
+
 class EmailSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -152,6 +159,11 @@ class AddressSerializer(serializers.ModelSerializer):
         model = Address
         exclude = ('user','is_deleted','create_time','update_time')
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if data['mobile']:
+            data['mobile'] = perform_phone(data['mobile'])
+        return data
     @classmethod
     def validate_mobile(cls,value):
         #手机号格式
