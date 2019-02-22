@@ -2,6 +2,7 @@ import random
 from django.http import HttpResponse
 from django_redis import get_redis_connection
 from rest_framework import status
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from boot_camp_mall.common import constants
@@ -9,6 +10,9 @@ from boot_camp_mall.common.ActionResult import ActionResult
 from boot_camp_mall.libs.captcha.captcha import captcha
 
 #url(r'^image_codes/?P(<image_code_id>[\w-]+)/$',view.ImageCodeView.as_view())
+from verifications.serializes import ImageCodeCheckSerializers, CheckSMSCodeSerializers
+
+
 class ImageCodeView(APIView):
     def get(self,request,image_code_id):
         """
@@ -21,19 +25,18 @@ class ImageCodeView(APIView):
 
         redis_conn.setex("img_%s" % image_code_id, constants.IMAGE_CODE_REDIS_EXPIRES, text)
         return HttpResponse(image_data, content_type="image/jpg")
-#r'^sms_codes/(?P<mobile>1[3-9]\d{9})/$'
-class SMSCodeView(APIView):
+#r'^sms_codes/(?P<mobile>1[3-9]\d{9})/?image_code_id=xxx&text=xxx$'
+class SMSCodeView(GenericAPIView):
+    serializer_class = ImageCodeCheckSerializers
     def get(self, request, mobile):
-
+        #效验参数
+        serializer = self.get_serializer(data = request.query_params)
+        serializer.is_valid(raise_exception = True)
         """
             获取短信验证码
         """
         redis_conn = get_redis_connection('verify_codes')
 
-        send_flag = redis_conn.get("send_flag_%s" % mobile)
-
-        if send_flag:
-            return Response({"message": "请求次数过于频繁"}, status=status.HTTP_400_BAD_REQUEST)
         # 生成短信验证码
         sms_code = "%06d" % random.randint(0, 999999)
 
@@ -54,3 +57,13 @@ class SMSCodeView(APIView):
         send_sms_code.delay(mobile, sms_code, expires)
 
         return ActionResult.success()
+#r'^check_codes/(?P<mobile>1[3-9]\d{9}/?sms_code=xxx)$'
+class CheckSmsCodeView(GenericAPIView):
+    serializer_class = CheckSMSCodeSerializers
+    def get(self,request,mobile):
+        #效验参数
+        serializer = self.get_serializer(data = request.query_params)
+        serializer.is_valid(raise_exception = True)
+
+        return Response(serializer.data)
+

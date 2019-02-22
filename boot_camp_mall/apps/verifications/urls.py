@@ -15,5 +15,10 @@ urlpatterns = [
         regex=r'^image_codes/(?P<image_code_id>[\w-]+)/$',
         view=views.ImageCodeView.as_view(),
         name='verify_image_codes'
+    ),
+    url(
+        regex=r'^check_codes/(?P<mobile>1[3-9]\d{9})/$',
+        view=views.CheckSmsCodeView.as_view(),
+        name='check_codes'
     )
 ]

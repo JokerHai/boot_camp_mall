@@ -206,4 +206,3 @@ REST_FRAMEWORK_EXTENSIONS = {
 #静态文件处理
 #--------------------------------------------------------------------------------
 STATIC_ROOT = os.path.join(ROOT_DIR, 'front_end_pc/static')
-print(STATIC_ROOT)
