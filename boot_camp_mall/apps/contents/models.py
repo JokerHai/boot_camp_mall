@@ -23,7 +23,7 @@ class Content(BaseModel):
     """
     广告内容
     """
-    category = models.ForeignKey(ContentCategory, on_delete=models.PROTECT, verbose_name='类别')
+    category = models.ForeignKey(ContentCategory, on_delete=models.PROTECT, verbose_name='所属类别')
     title = models.CharField(max_length=100, verbose_name='标题')
     url = models.CharField(max_length=300, verbose_name='内容链接')
     image = models.ImageField(null=True, blank=True, verbose_name='图片')
@@ -38,3 +38,7 @@ class Content(BaseModel):
 
     def __str__(self):
         return self.category.name + ': ' + self.title
+
+
+    def read(self):
+        return self.category

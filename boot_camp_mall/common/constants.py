@@ -30,3 +30,6 @@ EMAIL_VERIFY_URL = MALL_HOME+'success_verify_email.html?token='
 #收货地址最大数量
 USER_ADDRESS_COUNTS_LIMIT = 5
 
+#后台分页显示条数
+ADMIN_LIST_PER_PAGE = 20
+

@@ -80,6 +80,7 @@ THIRD_PARTY_APPS = [
     'corsheaders',
     'ckeditor',#富文本编辑器
     'ckeditor_uploader',#富文本编辑器上传模块
+    'django_crontab',  # 定时任务
 ]
 
 #项目配置Apps

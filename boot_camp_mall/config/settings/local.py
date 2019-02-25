@@ -8,6 +8,8 @@ import sys
 
 from .base import *  # noqa
 
+from .crontab import *
+
 from .base import env
 
 import os
