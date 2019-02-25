@@ -20,5 +20,5 @@ urlpatterns = [
         regex=r'^check_codes/(?P<mobile>1[3-9]\d{9})/$',
         view=views.CheckSmsCodeView.as_view(),
         name='check_codes'
-    )
+    ),
 ]

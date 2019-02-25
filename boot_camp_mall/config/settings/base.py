@@ -13,7 +13,6 @@ ROOT_DIR = environ.Path(__file__) - 4  # (boot_camp_mall/config/settings/base.py
 
 APPS_DIR = ROOT_DIR.path('boot_camp_mall')
 
-
 env = environ.Env()
 
 env.read_env(str(ROOT_DIR.path('.env')))
@@ -63,7 +62,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [APPS_DIR+'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,7 +77,9 @@ TEMPLATES = [
 #扩展APPS
 THIRD_PARTY_APPS = [
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'ckeditor',#富文本编辑器
+    'ckeditor_uploader',#富文本编辑器上传模块
 ]
 
 #项目配置Apps
@@ -88,6 +89,10 @@ LOCAL_APPS = [
     'verifications.apps.VerificationsConfig',
     'oauth.apps.OauthConfig',
     'areas.apps.AreasConfig',
+    'goods.apps.GoodsConfig',
+    'contents.apps.ContentsConfig',
+    #FastDFS上传测试类
+    'pic.apps.PicConfig',
 ]
 
 INSTALLED_APPS = INSTALLED_APPS + THIRD_PARTY_APPS + LOCAL_APPS

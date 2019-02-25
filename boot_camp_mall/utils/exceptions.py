@@ -30,5 +30,9 @@ def exception_handler(exc, context):
         if isinstance(exc, DatabaseError) or isinstance(exc, RedisError):
             # 数据库异常
             logger.error('[%s] %s' % (view, type(exc)))
-            response = Response({'errcode':status.HTTP_507_INSUFFICIENT_STORAGE,'errmsg': '服务器内部错误,请联系管理员'}, status=status.HTTP_507_INSUFFICIENT_STORAGE)
+
+            response = Response({
+                 'errmsg': '服务器内部错误,请联系管理员'
+            },status=status.HTTP_507_INSUFFICIENT_STORAGE)
+        response.data['status_code'] = response.status_code
     return response

@@ -41,6 +41,11 @@ urlpatterns = [
         regex=r'^emails/verification/$',
         view =views.VerifyEmailView.as_view(),
         name ='verify_email'
+    ),
+    url(
+        regex=r'^password_reset/$',
+        view =views.ResetPasswordView.as_view(),
+        name ='reset_password'
     )
 ]
 # 路由Router

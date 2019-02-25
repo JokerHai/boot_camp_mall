@@ -3,9 +3,12 @@
 # @Author  : joker
 # @Date    : 2019-01-24
 import re
+
+from django.contrib.auth.hashers import check_password, make_password
 from django_redis import get_redis_connection
 from rest_framework import serializers
 
+from django import forms
 from boot_camp_mall.common.JwtToken import response_jwt_payload_token
 from users.models import User, Address
 from boot_camp_mall.utils.tool import perform_phone
@@ -190,3 +193,24 @@ class AddressTitleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = ('title',)
+#密码设置序列化器
+class RestPasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(label='旧密码',write_only=True)
+    new_password1 = serializers.CharField(label='新密码1',write_only=True)
+    new_password2 = serializers.CharField(label='新密码2',write_only=True)
+    def validate(self, data):
+        # 判断两次密码
+        if data['new_password1'] != data['new_password2']:
+            raise serializers.ValidationError('两次密码不一致')
+
+        if not  check_password(data['old_password'],self.context['request'].user.password):
+            raise  serializers.ValidationError('旧密码输入不正确')
+        return data
+
+    def update(self, instance, validated_data):
+
+        instance.password = make_password(validated_data['new_password1'])
+
+        instance.save()
+
+        return instance

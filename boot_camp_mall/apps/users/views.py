@@ -5,7 +5,7 @@
 # @Date    : 2019-01-22
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView, GenericAPIView
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -14,7 +14,7 @@ from rest_framework.viewsets import GenericViewSet
 from boot_camp_mall.common import constants
 from boot_camp_mall.common.ActionResult import ActionResult
 from users.serializers import SignupSerializer, UserDetailSerializer, EmailSerializer, AddressSerializer, \
-    AddressTitleSerializer
+    AddressTitleSerializer, RestPasswordSerializer
 from users.models import User
 
 
@@ -198,3 +198,29 @@ class AddressViewSet(CreateModelMixin,UpdateModelMixin,GenericViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+#url(r'^password_reset/$')
+class ResetPasswordView(GenericAPIView):
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = RestPasswordSerializer
+
+    # def get_object(self,*args,**kwargs):
+    #
+    #     return self.request.user
+    def put(self,request):
+        """
+        重置密码
+        1.获取参数并进行效验(old_password new_password1 new_password2)
+        2.设置用户密码
+        3.返回应答，密码设置成功
+        """
+        #获取参数并进行效验(old_password new_password1 new_password2)
+        serializer = self.get_serializer(request.user,data = request.data)
+        serializer.is_valid(raise_exception = True)
+
+        #设置密码
+        serializer.save()
+
+        #返回相应
+        return ActionResult.success()

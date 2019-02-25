@@ -145,6 +145,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    'NON_FIELD_ERRORS_KEY':'errmsg'
 }
 
 # django-cors-headers 解决跨域问题
@@ -203,6 +204,31 @@ REST_FRAMEWORK_EXTENSIONS = {
     'DEFAULT_USE_CACHE': 'default',
 }
 
+# 生成的静态html文件保存目录
+#--------------------------------------------------------------------------------
+GENERATED_STATIC_HTML_FILES_DIR = os.path.join(ROOT_DIR,'front_end_pc')
 #静态文件处理
 #--------------------------------------------------------------------------------
 STATIC_ROOT = os.path.join(ROOT_DIR, 'front_end_pc/static')
+
+
+#FastDfs配置文件地址
+#--------------------------------------------------------------------------------
+FASTDFS_CLIENT_CONF = os.path.join(APPS_DIR,'utils/fastdfs/client.conf')
+
+FDFS_NGINX_URL = env.str('FDFS_NGINX_URL')
+
+# 指定Django默认文件存储类
+#--------------------------------------------------------------------------------
+DEFAULT_FILE_STORAGE = 'boot_camp_mall.utils.fastdfs.fdfs_storage.FastDfsStorage'
+
+# 富文本编辑器ckeditor配置
+#--------------------------------------------------------------------------------
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',  # 工具条功能
+        'height': 300,  # 编辑器高度
+        # 'width': 300,  # 编辑器宽
+    },
+}
+CKEDITOR_UPLOAD_PATH = ''  # 上传图片保存路径，使用了FastDFS，所以此处设为''

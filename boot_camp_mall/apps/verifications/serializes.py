@@ -4,9 +4,6 @@
 # @Date    : 2019-02-22
 from django_redis import get_redis_connection
 from rest_framework import serializers
-from rest_framework import status
-
-from users.models import User
 
 
 class ImageCodeCheckSerializers(serializers.Serializer):
@@ -70,7 +67,7 @@ class CheckSMSCodeSerializers(serializers.Serializer):
 
                 raise  serializers.ValidationError('短信验证码不正确')
         else:
-            raise  serializers.ValidationError('数据非法')
+                raise  serializers.ValidationError('数据非法')
         return data
 
 

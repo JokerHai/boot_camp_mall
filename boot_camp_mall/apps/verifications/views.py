@@ -1,7 +1,6 @@
 import random
 from django.http import HttpResponse
 from django_redis import get_redis_connection
-from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -64,6 +63,5 @@ class CheckSmsCodeView(GenericAPIView):
         #效验参数
         serializer = self.get_serializer(data = request.query_params)
         serializer.is_valid(raise_exception = True)
-
         return Response(serializer.data)
 

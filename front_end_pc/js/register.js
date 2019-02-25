@@ -250,7 +250,7 @@ var vm = new Vue({
                     .catch(error => {
                         if (error.response.status == 400) {
                             if ('non_field_errors' in error.response.data) {
-                                this.error_sms_code_message = error.response.data.non_field_errors[0];
+                                this.error_sms_code_message = error.response.data.errmsg[0];
                             } else {
                                 this.error_sms_code_message = '数据有误';
                             }
