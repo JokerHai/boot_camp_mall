@@ -81,6 +81,7 @@ THIRD_PARTY_APPS = [
     'ckeditor',#富文本编辑器
     'ckeditor_uploader',#富文本编辑器上传模块
     'django_crontab',  # 定时任务
+    'django_filters',  # django搜索过滤，
 ]
 
 #项目配置Apps
@@ -92,6 +93,8 @@ LOCAL_APPS = [
     'areas.apps.AreasConfig',
     'goods.apps.GoodsConfig',
     'contents.apps.ContentsConfig',
+    'cart.apps.CartConfig',
+    'orders.apps.OrderConfig',
     #FastDFS上传测试类
     'pic.apps.PicConfig',
 ]

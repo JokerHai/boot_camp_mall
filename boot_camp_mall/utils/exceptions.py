@@ -34,5 +34,5 @@ def exception_handler(exc, context):
             response = Response({
                  'errmsg': '服务器内部错误,请联系管理员'
             },status=status.HTTP_507_INSUFFICIENT_STORAGE)
-        response.data['status_code'] = response.status_code
+        # response.data['status_code'] = response.status_code
     return response

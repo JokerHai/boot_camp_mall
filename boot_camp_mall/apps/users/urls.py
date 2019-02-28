@@ -46,6 +46,11 @@ urlpatterns = [
         regex=r'^password_reset/$',
         view =views.ResetPasswordView.as_view(),
         name ='reset_password'
+    ),
+    url(
+        regex=r'^orders/$',
+        view=views.MyOrderView.as_view(),
+        name='my_orders'
     )
 ]
 # 路由Router

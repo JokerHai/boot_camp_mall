@@ -85,6 +85,14 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
+    },
+    #存储购物车内容
+    "cart": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": env('CART_REDIS_URL'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
 
@@ -147,6 +155,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    #分页配置
+    'DEFAULT_PAGINATION_CLASS':'boot_camp_mall.utils.pagination.StandardResultPagination',
+    #过滤器
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'NON_FIELD_ERRORS_KEY':'errmsg'
 }
 

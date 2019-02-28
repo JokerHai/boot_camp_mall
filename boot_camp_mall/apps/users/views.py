@@ -5,7 +5,8 @@
 # @Date    : 2019-01-22
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView, GenericAPIView
+from rest_framework.filters import OrderingFilter
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView, GenericAPIView, ListAPIView
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -13,6 +14,8 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 from boot_camp_mall.common import constants
 from boot_camp_mall.common.ActionResult import ActionResult
+from orders.models import OrderInfo
+from orders.serializers import MyOrderInfoSerializers
 from users.serializers import SignupSerializer, UserDetailSerializer, EmailSerializer, AddressSerializer, \
     AddressTitleSerializer, RestPasswordSerializer
 from users.models import User
@@ -224,3 +227,28 @@ class ResetPasswordView(GenericAPIView):
 
         #返回相应
         return ActionResult.success()
+#url(r'^orders$)
+class MyOrderView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+
+    serializer_class = MyOrderInfoSerializers
+
+    filter_backends = [OrderingFilter,]
+
+    #默认排序的字段
+    ordering = ('-create_time',) #指定默认排序
+
+    # def get(self,request):
+    #
+    #     # user = OrderInfo.objects.filter(order_id='20190227184959000000032')
+    #
+    #     result = OrderInfo.objects.all()
+    #
+    #     serializer = MyOrderSerializers(result,many=True)
+    #
+    #     return Response(serializer.data,status=status.HTTP_201_CREATED)
+
+    def get_queryset(self):
+        # 获取订单对象
+        return OrderInfo.objects.filter(user=self.request.user)
+

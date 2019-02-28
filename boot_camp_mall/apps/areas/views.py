@@ -8,6 +8,7 @@ from areas.serializers import AreasSerializers, SubAreaSerializers
 
 #视图集实现方法
 class AreasViewSet(CacheResponseMixin,ReadOnlyModelViewSet):
+    pagination_class = None
 
     def get_serializer_class(self):
         if self.action == 'list':

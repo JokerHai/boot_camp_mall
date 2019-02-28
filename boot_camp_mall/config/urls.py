@@ -27,5 +27,9 @@ urlpatterns = [
     url(r'',include('verifications.urls',namespace='verifications')),
     url(r'oauth/',include('oauth.urls',namespace='qq_oauth')),
     url(r'',include('areas.urls',namespace='areas')),
+    url(r'',include('goods.urls',namespace='goods')),
+    url(r'',include('cart.urls',namespace='cart')),
+    url(r'',include('orders.urls',namespace='order')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+
 ]

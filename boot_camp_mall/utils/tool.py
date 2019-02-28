@@ -10,3 +10,10 @@ def perform_phone(value):
     new_phone = value.replace(list_phone, '****')
 
     return new_phone
+
+
+def substring(value):
+    if len(str(value)) > 20:
+        return '{}....'.format(str(value)[0:30])
+    else:
+        return str(value)

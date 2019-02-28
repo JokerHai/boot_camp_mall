@@ -4,6 +4,7 @@ from django.db import models
 
 # Create your models here.
 from boot_camp_mall.utils.model import BaseModel
+from boot_camp_mall.utils.tool import substring
 
 
 class GoodsCategory(BaseModel):
@@ -120,6 +121,7 @@ class SKU(BaseModel):
     sales = models.IntegerField(default=0, verbose_name='销量')
     comments = models.IntegerField(default=0, verbose_name='评价数')
     is_launched = models.BooleanField(default=True, verbose_name='是否上架销售')
+    is_hot = models.BooleanField(default=False,verbose_name='是否热销')
     default_image_url = models.CharField(max_length=200, default='', null=True, blank=True, verbose_name='默认图片')
 
     class Meta:
@@ -130,6 +132,15 @@ class SKU(BaseModel):
     def __str__(self):
         return '%s: %s' % (self.id, self.name)
 
+    def substring_name(self):
+
+        return substring(self.name)
+    def substring_caption(self):
+
+        return substring(self.caption)
+
+    substring_name.short_description = '商品名称'
+    substring_caption.short_description = '副标题'
 class SKUImage(BaseModel):
     """
     SKU图片
