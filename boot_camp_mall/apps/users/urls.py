@@ -51,6 +51,26 @@ urlpatterns = [
         regex=r'^orders/$',
         view=views.MyOrderView.as_view(),
         name='my_orders'
+    ),
+    url(
+        regex=r'^accounts/(?P<username>\w{5,20})/sms/token/$',
+        view=views.ForgetPassView.as_view(),
+        name='forget_password'
+    ),
+    url(
+        regex=r'^sms_codes/$',
+        view=views.SmsCodeView.as_view(),
+        name='forget_pass_sms'
+    ),
+    url(
+        regex=r'^accounts/(?P<mobile>.+)/password/token/$',
+        view=views.VerifySmsCodeView.as_view(),
+        name='verify_sms_code'
+    ),
+    url(
+        regex=r'^users/(?P<user_id>\d+)/password/$',
+        view=views.ForResetPasswordView.as_view(),
+        name='forget_reset_password'
     )
 ]
 # 路由Router

@@ -3,6 +3,10 @@
 # 用户管理
 # @Author  : joker
 # @Date    : 2019-01-22
+from random import randint
+
+from django.conf import settings
+from django_redis import get_redis_connection
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
@@ -19,7 +23,8 @@ from orders.serializers import MyOrderInfoSerializers
 from users.serializers import SignupSerializer, UserDetailSerializer, EmailSerializer, AddressSerializer, \
     AddressTitleSerializer, RestPasswordSerializer
 from users.models import User
-
+from boot_camp_mall.utils.tool import perform_phone
+from itsdangerous import TimedJSONWebSignatureSerializer as TJS
 
 # url(r'^signup/$')
 # 注册
@@ -252,3 +257,86 @@ class MyOrderView(ListAPIView):
         # 获取订单对象
         return OrderInfo.objects.filter(user=self.request.user)
 
+class ForgetPassView(APIView):
+
+    def get(self,request,username):
+
+        user = User.objects.filter(username=username).first()
+
+        if user is None:
+
+            return ActionResult.failure(status.HTTP_404_NOT_FOUND,'用户名或手机号不存在')
+
+        redis_conn = get_redis_connection('verify_codes')
+
+        real_image_code_text = redis_conn.get('img_%s' % request.query_params['image_code_id'])
+
+        if not real_image_code_text:
+
+            return ActionResult.failure(status.HTTP_400_BAD_REQUEST,'图片验证码读取错误')
+
+        #比较图片验证码
+
+        real_image_code_text = real_image_code_text.decode()
+
+        if real_image_code_text.lower() != request.query_params['text'].lower():
+
+            return ActionResult.failure(status.HTTP_400_BAD_REQUEST,'图片验证码输入错误')
+
+        #生成加密的access_token
+        tjs = TJS(settings.SECRET_KEY,300)
+        try:
+            data = tjs.dumps(user.id)
+        except IOError :
+            return ActionResult.failure(status.HTTP_400_BAD_REQUEST,'access_token值无效')
+
+
+        return ActionResult.success({'mobile':perform_phone(user.mobile),'access_token':data})
+
+class SmsCodeView(APIView):
+
+    def get(self,request):
+
+        access_token = request.query_params.get('access_token')
+
+        #解密access_token
+        tjs = TJS(settings.SECRET_KEY, 300)
+        try:
+            user_id = tjs.loads(access_token)
+        except IOError:
+            return ActionResult.failure(status.HTTP_400_BAD_REQUEST,'access_token值无效')
+
+        #获取用户
+        user = User.objects.get(id = user_id)
+        #获取手机号
+        mobile = user.mobile
+
+        # 建立连接redis的对象
+        conn = get_redis_connection('verify_codes')
+        flag = conn.get('sms_code_flag_%s' % mobile)
+        if flag:
+            return Response({'error': '请求过于频繁'}, status=400)
+        # 2、生成短信验证码
+        sms_code = '%06d' % randint(0, 999999)
+        # 3、保存短信验证码到缓存中
+        # string
+        pl = conn.pipeline()  # 生成管道对象
+        pl.setex('forget_sms_code_%s' % mobile, 300, sms_code)
+        pl.setex('sms_code_flag_%s' % mobile, 60, 1)
+        pl.execute()  # 连接缓存，传入写入指令
+        # 4、发送短信
+
+        print(sms_code)
+
+        return ActionResult.success()
+
+class VerifySmsCodeView(APIView):
+
+    def get(self,request,mobile):
+
+        return ActionResult.success()
+
+class ForResetPasswordView(APIView):
+
+    def post(self,request,user_id):
+        return ActionResult.success()

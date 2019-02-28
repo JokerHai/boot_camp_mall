@@ -15,6 +15,8 @@ var vm = new Vue({
         password: '',
         password2: '',
 
+        errcode:'',
+
         // 发送短信的标志
         sending_flag: false,
 
@@ -105,8 +107,8 @@ var vm = new Vue({
                         responseType: 'json'
                     })
                     .then(response => {
-                        this.mobile = response.data.mobile;
-                        this.access_token = response.data.access_token;
+                        this.mobile = response.data.entity.mobile;
+                        this.access_token = response.data.entity.access_token;
                         this.step_class['step-2'] = true;
                         this.step_class['step-1'] = false;
                         this.is_show_form_1 = false;
@@ -116,8 +118,8 @@ var vm = new Vue({
                         if (error.response.status == 400) {
                             this.error_image_code_message = '验证码错误';
                             this.error_image_code = true;
-                        } else if (error.response.status == 404) {
-                            this.error_username_message = '用户名或手机号不存在';
+                        } else if (error.response.errcode == 404) {
+                            this.error_username_message = error.response.errmsg;
                             this.error_username = true;
                         } else {
                             console.log(error.response.data);
@@ -211,7 +213,7 @@ var vm = new Vue({
             this.check_pwd();
             this.check_cpwd();
             if (this.error_password == false && this.error_check_password == false) {
-                axios.post(this.host + '/users/'+ this.user_id +'/password/', {
+                axios.post(this.host + '/users/'+ '21' +'/password/', {
                         password: this.password,
                         password2: this.password2,
                         access_token: this.access_token
